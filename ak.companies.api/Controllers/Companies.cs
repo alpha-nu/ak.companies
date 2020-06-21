@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ak.companies.db;
 using ak.companies.models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ak.companies.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class Companies : ControllerBase
     {
         private readonly CompaniesContext context;
