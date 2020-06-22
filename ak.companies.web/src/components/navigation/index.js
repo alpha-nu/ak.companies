@@ -12,6 +12,7 @@ import EmailIcon from "@material-ui/icons/EmailRounded";
 import TokenIcon from "@material-ui/icons/VpnKeyRounded";
 import LoginIcon from "@material-ui/icons/LockOpenRounded";
 import DropDownIcon from "@material-ui/icons/ArrowDropDownRounded";
+import { drawerOpen } from "../../state/atoms";
 import {
   IconButton,
   ListItemIcon,
@@ -21,6 +22,7 @@ import {
 } from "@material-ui/core";
 import clsx from "clsx";
 import Drawer from "./drawer";
+import { useRecoilState } from "recoil";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -58,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
   const classes = useStyles();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useRecoilState(drawerOpen);
   const handleDrawerOpen = () => {
     setOpen(true);
   };

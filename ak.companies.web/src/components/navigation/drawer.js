@@ -15,6 +15,8 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import HomeIcon from "@material-ui/icons/HomeRounded";
 import clsx from "clsx";
 import { Link, useLocation } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { drawerOpen } from "../../state/atoms";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 export default () => {
   const { pathname } = useLocation();
   const classes = useStyles();
-  const open = true;
+  const [open, setOpen] = useRecoilState(drawerOpen);
   return (
     <Drawer
       variant="permanent"
@@ -61,7 +63,7 @@ export default () => {
       open={open}
     >
       <div className={classes.toolbarIcon}>
-        <IconButton onClick={() => {}}>
+        <IconButton onClick={() => setOpen(false)}>
           <ChevronLeftIcon />
         </IconButton>
       </div>

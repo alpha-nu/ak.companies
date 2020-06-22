@@ -13,6 +13,7 @@ import {
   unstable_createMuiStrictModeTheme,
   makeStyles,
 } from "@material-ui/core";
+import { RecoilRoot } from "recoil";
 
 const theme = unstable_createMuiStrictModeTheme({
   palette: {
@@ -42,19 +43,21 @@ const App = () => {
 
   return (
     <Router history={history}>
-      <ThemeProvider theme={theme}>
-        <div className={classes.root}>
-          <CssBaseline />
-          <Navigation />
-          <main className={classes.content}>
-            <div className={classes.appBarSpacer} />
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <SecureRoute exact path="/companies" component={Companies} />
-            </Switch>
-          </main>
-        </div>
-      </ThemeProvider>
+      <RecoilRoot>
+        <ThemeProvider theme={theme}>
+          <div className={classes.root}>
+            <CssBaseline />
+            <Navigation />
+            <main className={classes.content}>
+              <div className={classes.appBarSpacer} />
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <SecureRoute exact path="/companies" component={Companies} />
+              </Switch>
+            </main>
+          </div>
+        </ThemeProvider>
+      </RecoilRoot>
     </Router>
   );
 };
