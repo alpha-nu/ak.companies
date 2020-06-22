@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   Grid,
@@ -12,6 +12,10 @@ import {
   Tooltip,
 } from "@material-ui/core";
 import { WebRounded, EditRounded } from "@material-ui/icons";
+import { useRecoilState } from "recoil";
+import { allCompanies } from "../../state/atoms";
+import { useAuth0 } from "../../auth/auth0-spa";
+import { getCompanies } from "../../api";
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -31,16 +35,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 export default () => {
   const classes = useStyles();
+  const [companies, setCompanies] = useRecoilState(allCompanies);
+  const { getTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    const fetch = async () => {
+      const token = await getTokenSilently();
+      const data = await getCompanies(token);
+
+      setCompanies(data);
+    };
+
+    fetch();
+  });
 
   return (
     <Container className={classes.cardGrid} maxWidth="md">
       <Grid container spacing={4}>
-        {cards.map((card) => (
-          <Grid item key={card} xs={12} sm={12} md={4}>
+        {companies.map(({ id, name, ticker, isin, website }) => (
+          <Grid item key={id} xs={12} sm={12} md={4}>
             <Card className={classes.card}>
               <CardMedia
                 className={classes.cardMedia}
@@ -49,12 +64,10 @@ export default () => {
               />
               <CardContent className={classes.cardContent}>
                 <Typography gutterBottom variant="h5" component="h2">
-                  Heading
+                  {name}
                 </Typography>
-                <Typography>
-                  This is a media card. You can use this section to describe the
-                  content.
-                </Typography>
+                <Typography>{ticker}</Typography>
+                <Typography variant="caption">{isin}</Typography>
               </CardContent>
               <CardActions>
                 <Tooltip title="edit company">
@@ -62,11 +75,18 @@ export default () => {
                     <EditRounded />
                   </Fab>
                 </Tooltip>
-                <Tooltip title="view website">
-                  <Fab color="primary" size="small">
-                    <WebRounded />
-                  </Fab>
-                </Tooltip>
+                {website && (
+                  <Tooltip title="view website">
+                    <Fab
+                      color="primary"
+                      size="small"
+                      href={website}
+                      target="_blank"
+                    >
+                      <WebRounded />
+                    </Fab>
+                  </Tooltip>
+                )}
               </CardActions>
             </Card>
           </Grid>

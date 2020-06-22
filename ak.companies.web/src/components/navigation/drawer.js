@@ -17,6 +17,8 @@ import clsx from "clsx";
 import { Link, useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { drawerOpen } from "../../state/atoms";
+import { useRecoilValue } from "recoil";
+import { companyCountSelector } from "../../state/selectors";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +56,8 @@ export default () => {
   const { pathname } = useLocation();
   const classes = useStyles();
   const [open, setOpen] = useRecoilState(drawerOpen);
+  const companyCount = useRecoilValue(companyCountSelector);
+
   return (
     <Drawer
       variant="permanent"
@@ -84,15 +88,20 @@ export default () => {
           <ListItemIcon>
             <CompaniesIcon />
           </ListItemIcon>
-          <ListItemText primary="Companies" />
+          <ListItemText primary={`Companies (${companyCount})`} />
         </ListItem>
       </List>
       <Divider />
-      <ListItem button>
+      <ListItem
+        component="a"
+        href="https://github.com/alpha-nu/ak.companies"
+        target="_blank"
+        button
+      >
         <ListItemIcon>
           <GitHubIcon />
         </ListItemIcon>
-        <ListItemText primary="GitHub" />
+        <ListItemText primary="Source Code" />
       </ListItem>
     </Drawer>
   );
