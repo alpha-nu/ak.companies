@@ -60,6 +60,7 @@ namespace ak.companies.api.Controllers
                 original.Name = company.Name;
                 original.Isin = company.Isin;
                 original.Ticker = company.Ticker;
+                original.Website = company.Website;
 
                 await context.SaveChangesAsync();
             }
