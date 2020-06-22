@@ -67,25 +67,23 @@ export default () => {
       </div>
       <Divider />
       <List>
-        <div>
-          <ListItem to="/" selected={pathname === "/"} component={Link} button>
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItem>
-          <ListItem
-            to="/companies"
-            selected={pathname === "/companies"}
-            component={Link}
-            button
-          >
-            <ListItemIcon>
-              <CompaniesIcon />
-            </ListItemIcon>
-            <ListItemText primary="Companies" />
-          </ListItem>
-        </div>
+        <ListItem to="/" selected={pathname === "/"} component={Link} button>
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItem>
+        <ListItem
+          to="/companies"
+          selected={pathname === "/companies"}
+          component={Link}
+          button
+        >
+          <ListItemIcon>
+            <CompaniesIcon />
+          </ListItemIcon>
+          <ListItemText primary="Companies" />
+        </ListItem>
       </List>
       <Divider />
       <ListItem button>

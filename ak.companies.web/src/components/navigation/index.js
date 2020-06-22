@@ -11,6 +11,7 @@ import LogoutIcon from "@material-ui/icons/ExitToAppRounded";
 import EmailIcon from "@material-ui/icons/EmailRounded";
 import TokenIcon from "@material-ui/icons/VpnKeyRounded";
 import LoginIcon from "@material-ui/icons/LockOpenRounded";
+import DropDownIcon from "@material-ui/icons/ArrowDropDownRounded";
 import {
   IconButton,
   ListItemIcon,
@@ -106,13 +107,17 @@ export default () => {
 
             {isAuthenticated && (
               <div>
-                <IconButton
+                <Button
+                  size="large"
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<AccountIcon fontSize="large" />}
+                  endIcon={<DropDownIcon fontSize="large" />}
                   edge="end"
                   onClick={(e) => setAnchorEl(e.currentTarget)}
-                  color="inherit"
                 >
-                  <AccountIcon fontSize="large" />
-                </IconButton>
+                  Profile
+                </Button>
                 <Menu
                   anchorEl={anchorEl}
                   anchorOrigin={{ vertical: "top", horizontal: "right" }}
