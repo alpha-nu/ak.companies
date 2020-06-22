@@ -7,9 +7,11 @@ import {
   Typography,
   CardContent,
   CardActions,
-  Button,
   makeStyles,
+  Fab,
+  Tooltip,
 } from "@material-ui/core";
+import { WebRounded, EditRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -38,7 +40,7 @@ export default () => {
     <Container className={classes.cardGrid} maxWidth="md">
       <Grid container spacing={4}>
         {cards.map((card) => (
-          <Grid item key={card} xs={12} sm={12} md={6}>
+          <Grid item key={card} xs={12} sm={12} md={4}>
             <Card className={classes.card}>
               <CardMedia
                 className={classes.cardMedia}
@@ -55,9 +57,16 @@ export default () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button variant="contained" color="primary">
-                  Edit
-                </Button>
+                <Tooltip title="edit company">
+                  <Fab size="small" color="primary">
+                    <EditRounded />
+                  </Fab>
+                </Tooltip>
+                <Tooltip title="view website">
+                  <Fab color="primary" size="small">
+                    <WebRounded />
+                  </Fab>
+                </Tooltip>
               </CardActions>
             </Card>
           </Grid>
