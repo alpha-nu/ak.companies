@@ -4,12 +4,14 @@ using System.Threading.Tasks;
 using ak.companies.db;
 using ak.companies.models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ak.companies.api.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     [Authorize]
     public class Companies : ControllerBase
@@ -20,6 +22,7 @@ namespace ak.companies.api.Controllers
 
         [HttpGet]
         [Route("search")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Company>> GetCompanies(int? id, string isin)
         {
             Company company = null;
@@ -47,6 +50,9 @@ namespace ak.companies.api.Controllers
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> PutCompany(int id,
             [Bind("Name", "Isin", "Ticker", "Website")] Company company
             )
@@ -76,6 +82,8 @@ namespace ak.companies.api.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<ActionResult<Company>> PostCompany(
             [Bind("Name", "Isin", "Ticker", "Website")] Company company
             )

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using ak.companies.db;
-using System;
+using Microsoft.OpenApi.Models;
 
 namespace ak.companies.api
 {
@@ -34,6 +34,32 @@ namespace ak.companies.api
                 options.Audience = Configuration["Auth0:Audience"];
             });
 
+            services.AddSwaggerGen(_ =>
+            {
+                _.SwaggerDoc("v1", new OpenApiInfo { Title = "ak.companies", Version = "v1" });
+                _.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    Description = "Add header in this format: \"Bearer <API_TOKEN>\""
+                });
+                _.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme {
+                            Reference = new OpenApiReference {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                    },
+                        new string[]{}
+                    }
+                });
+            });
+
             services.AddControllers();
             services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyOrigin().AllowAnyHeader()));
         }
@@ -45,6 +71,11 @@ namespace ak.companies.api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(builder =>
+            {
+                builder.SwaggerEndpoint("/swagger/v1/swagger.json", "ak.companies v1");
+            });
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors();
