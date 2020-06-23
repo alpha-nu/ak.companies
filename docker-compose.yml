@@ -1,0 +1,26 @@
+version: "3.4"
+
+services:
+  ak.companies.api:
+    image: ${DOCKER_REGISTRY-}akcompanies
+    ports:
+      - 5005:80
+    expose:
+      - 80
+    build:
+      context: .
+      dockerfile: ak.companies.api/Dockerfile
+    depends_on: 
+      - ak.companies.db
+
+  ak.companies.db:
+    image: mysql:latest
+    command: "--default-authentication-plugin=mysql_native_password --sql-mode=NO_ENGINE_SUBSTITUTION"
+    restart: always
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_DATABASE: companies
