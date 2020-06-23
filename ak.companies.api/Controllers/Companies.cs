@@ -22,15 +22,20 @@ namespace ak.companies.api.Controllers
         [Route("search")]
         public async Task<ActionResult<Company>> GetCompanies(int? id, string isin)
         {
+            Company company = null;
             if (id.HasValue)
             {
-                return await context.Companies.FindAsync(id);
+                company = await context.Companies.FindAsync(id);
             }
+
+            if (company != null) return company;
 
             if (!String.IsNullOrEmpty(isin))
             {
-                return await context.Companies.FirstOrDefaultAsync(_ => _.Isin == isin);
+                company = await context.Companies.FirstOrDefaultAsync(_ => _.Isin == isin);
             }
+
+            if (company != null) return company;
 
             return NotFound();
         }
