@@ -4,7 +4,7 @@ services:
   ak.companies.api:
     image: ${DOCKER_REGISTRY-}akcompanies
     ports:
-      - 5005:80
+      - 5001:80
     expose:
       - 80
     build:
@@ -25,3 +25,13 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
     volumes: 
       - ./ak.companies.db/sql:/scripts
+
+  ak.companies.web:
+    build:
+      context: ./ak.companies.web
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    expose: 
+      - 3000
+    tty: "true"
