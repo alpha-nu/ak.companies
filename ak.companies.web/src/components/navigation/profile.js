@@ -122,13 +122,13 @@ export default () => {
         </DialogContent>
         <DialogActions>
           <Tooltip title="Copy to Clipboard">
-            <Fab size="small" color="primary" onClick={copyToken}>
-              <CopyIcon />
+            <Fab size="small" onClick={copyToken}>
+              <CopyIcon color="action"/>
             </Fab>
           </Tooltip>
           <Tooltip title="Close">
-            <Fab size="small" color="primary" onClick={hideToken}>
-              <CloseIcon />
+            <Fab size="small" onClick={hideToken}>
+              <CloseIcon color="action"/>
             </Fab>
           </Tooltip>
         </DialogActions>
