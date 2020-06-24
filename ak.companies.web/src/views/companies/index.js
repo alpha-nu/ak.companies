@@ -81,19 +81,14 @@ export default () => {
               </CardContent>
               <CardActions>
                 <Tooltip title="edit company">
-                  <Fab size="small" color="primary">
-                    <EditRounded />
+                  <Fab size="small">
+                    <EditRounded color="action" />
                   </Fab>
                 </Tooltip>
                 {website && (
                   <Tooltip title="view website">
-                    <Fab
-                      color="primary"
-                      size="small"
-                      href={website}
-                      target="_blank"
-                    >
-                      <WebRounded />
+                    <Fab size="small" href={website} target="_blank">
+                      <WebRounded color="action" />
                     </Fab>
                   </Tooltip>
                 )}
