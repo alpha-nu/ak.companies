@@ -37,7 +37,7 @@ export default () => {
           A sample application showcasing, a variety of technologies, including
           MySQL, .NET Core, ReactJS, Auth0, Swagger and Docker.
         </Typography>
-        <Typography variant="h6" align="center" color="textSecondary" paragraph>
+        <Typography variant="body1" align="center" color="textSecondary" paragraph>
           Consult the README for more info, or interact with the API directly
           using swagger UI or Postman
         </Typography>

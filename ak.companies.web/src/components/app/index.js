@@ -13,6 +13,7 @@ import {
   unstable_createMuiStrictModeTheme,
   makeStyles,
 } from "@material-ui/core";
+import Footer from "./footer";
 import { RecoilRoot } from "recoil";
 
 const theme = unstable_createMuiStrictModeTheme({
@@ -54,6 +55,7 @@ const App = () => {
                 <Route exact path="/" component={Home} />
                 <SecureRoute exact path="/companies" component={Companies} />
               </Switch>
+              <Footer />
             </main>
           </div>
         </ThemeProvider>
