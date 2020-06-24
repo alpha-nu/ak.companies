@@ -76,7 +76,7 @@ namespace ak.companies.api
             {
                 builder.SwaggerEndpoint("/swagger/v1/swagger.json", "ak.companies v1");
             });
-            app.UseHttpsRedirection();
+            
             app.UseRouting();
             app.UseCors();
             app.UseAuthentication();
