@@ -17,7 +17,7 @@ import { RecoilRoot } from "recoil";
 
 const theme = unstable_createMuiStrictModeTheme({
   palette: {
-    type: "dark",
+    type: "light",
   },
 });
 
