@@ -12,18 +12,18 @@ For the `Dockerized` version, simply run:
 docker-compose up 
 ```
 
-Or, to run the containers in detached mode (background)
+Or, to run the containers in detached mode (background):
 ```bash
 docker-compose up -d
 ```
-Create the database and load sample data:
+Once the containers are up, create and initialize the database with:
 ```bash
 ./init-db.sh
 ```
 
 *On Windows, if you cannot execute `.sh` files, you can rename the file to `.ps` and use powershell instead*
 
-One the containers are up, you should have:
+And that's it, you should have:
 - a react front end at http://localhost:3000
 - a .net core api at http://localhost:5001
 - a swagger ui at http://localhost:5001/swagger
