@@ -24,8 +24,8 @@ create table __EFMigrationsHistory
     ProductVersion varchar(32) not null
 );
 
-insert into Companies(Name, Ticker, Isin, Website) values("Apple Inc.", "AAPL", "US0378331005", "www.apple.com");
-insert into Companies(Name, Ticker, Isin, Website) values("Nike", "NKE", "US6541061031", "www.nike.com");
-insert into Companies(Name, Ticker, Isin, Website) values("IBM", "IBM", "US4592001014", "www.ibm.com");
-insert into Companies(Name, Ticker, Isin, Website) values("Verizon", "VZ", "US92343V1044", "www.verizon.com");
-insert into Companies(Name, Ticker, Isin, Website) values("	JPMorgan Chase & Co.", "JPM", "US46625H1005", "www.jpmorgan.com");
+insert into Companies(Name, Ticker, Isin, Website) values("Apple Inc.", "AAPL", "US0378331005", "http://www.apple.com");
+insert into Companies(Name, Ticker, Isin, Website) values("Nike", "NKE", "US6541061031", "http://www.nike.com");
+insert into Companies(Name, Ticker, Isin, Website) values("IBM", "IBM", "US4592001014", "http://www.ibm.com");
+insert into Companies(Name, Ticker, Isin, Website) values("Verizon", "VZ", "US92343V1044", "http://www.verizon.com");
+insert into Companies(Name, Ticker, Isin, Website) values("JPMorgan Chase & Co.", "JPM", "US46625H1005", "http://www.jpmorgan.com");
