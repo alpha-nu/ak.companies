@@ -16,6 +16,10 @@ import { useRecoilState } from "recoil";
 import { allCompanies } from "../../state/atoms";
 import { useAuth0 } from "../../auth/auth0-spa";
 import { getCompanies } from "../../api";
+import logoIpsum1 from "../../assets/logoIpsums/1.png";
+import logoIpsum2 from "../../assets/logoIpsums/2.png";
+import logoIpsum3 from "../../assets/logoIpsums/3.png";
+import logoIpsum4 from "../../assets/logoIpsums/4.png";
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -35,6 +39,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const getRandomLogo = () => {
+  return [logoIpsum1, logoIpsum2, logoIpsum3, logoIpsum4][
+    Math.floor(Math.random() * 4)
+  ];
+};
+
 export default () => {
   const classes = useStyles();
   const [companies, setCompanies] = useRecoilState(allCompanies);
@@ -49,7 +59,7 @@ export default () => {
     };
 
     fetch();
-  });
+  }, []);
 
   return (
     <Container className={classes.cardGrid} maxWidth="md">
@@ -59,8 +69,8 @@ export default () => {
             <Card className={classes.card}>
               <CardMedia
                 className={classes.cardMedia}
-                image="https://source.unsplash.com/random"
-                title="Image title"
+                image={getRandomLogo()}
+                title="Logo"
               />
               <CardContent className={classes.cardContent}>
                 <Typography gutterBottom variant="h5" component="h2">
