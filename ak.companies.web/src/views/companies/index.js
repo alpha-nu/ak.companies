@@ -59,7 +59,7 @@ export default () => {
     };
 
     fetch();
-  }, []);
+  }, [getTokenSilently, setCompanies]);
 
   return (
     <Container className={classes.cardGrid} maxWidth="md">
