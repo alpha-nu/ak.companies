@@ -17,7 +17,7 @@ export const selectedCompany = atom({
 
 export const errors = atom({
   key: "erros",
-  default: [],
+  default: null,
 });
 
 export const notification = atom({

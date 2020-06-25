@@ -17,6 +17,7 @@ import {
 } from "@material-ui/core";
 import Footer from "./footer";
 import { RecoilRoot } from "recoil";
+import Errors from "../errors";
 
 const theme = unstable_createMuiStrictModeTheme({
   palette: {
@@ -67,6 +68,7 @@ const App = () => {
                   component={EditCompany}
                 />
               </Switch>
+              <Errors />
               <Footer />
             </main>
           </div>
