@@ -16,10 +16,6 @@ Or, to run the containers in detached mode (background):
 ```bash
 docker-compose up -d
 ```
-Once the containers are up, create and initialize the database with:
-```bash
-./init-db.sh
-```
 
 *On Windows, if you cannot execute `.sh` files, you can rename the file to `.ps` and use powershell instead*
 
@@ -69,4 +65,9 @@ In dev mode, to apply a migration and update the database, run this command *fro
 
 ```bash
 dotnet ef --project ../ak.companies.db  database update --configuration Development
+```
+
+To create and initialize the database:
+```bash
+./init-db.sh
 ```

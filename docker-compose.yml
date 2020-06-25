@@ -24,7 +24,7 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
     volumes: 
-      - ./ak.companies.db/sql:/scripts
+      - ./ak.companies.db/sql:/docker-entrypoint-initdb.d
 
   ak.companies.web:
     build:
