@@ -59,7 +59,7 @@ export default () => {
       if (e.response.data.errors) {
         setErrors(e.response.data.errors);
       } else {
-        setErrors({ errors: [e] });
+        setErrors(e.message);
       }
     } finally {
       setLoading(false);

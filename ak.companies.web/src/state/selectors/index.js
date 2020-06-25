@@ -17,9 +17,9 @@ export const errorsSelector = selector({
     const e = get(errors);
     if (e) {
       return JSON.stringify(e, null, 2);
-    } else {
-      return e;
     }
+    
+    return null;
   },
   set: ({ set }) => set(errors, null),
 });

@@ -12,7 +12,7 @@ import {
   Tooltip,
 } from "@material-ui/core";
 import { WebRounded, EditRounded, AddRounded } from "@material-ui/icons";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { allCompanies, selectedCompany } from "../../state/atoms";
 import { useAuth0 } from "../../auth/auth0-spa";
 import { getCompanies } from "../../api";
@@ -22,6 +22,7 @@ import logoIpsum2 from "../../assets/logoIpsums/2.png";
 import logoIpsum3 from "../../assets/logoIpsums/3.png";
 import logoIpsum4 from "../../assets/logoIpsums/4.png";
 import { Link } from "react-router-dom";
+import { errors } from "../../state/atoms";
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -52,7 +53,8 @@ export default () => {
   const [companies, setCompanies] = useRecoilState(allCompanies);
   const { getTokenSilently } = useAuth0();
   const [loading, setLoading] = useState(true);
-  const [, setSelectedCompany] = useRecoilState(selectedCompany);
+  const setSelectedCompany = useSetRecoilState(selectedCompany);
+  const setError = useSetRecoilState(errors);
 
   useEffect(() => {
     const fetch = async () => {
@@ -62,14 +64,14 @@ export default () => {
 
         setCompanies(data);
       } catch (e) {
-        console.log(e);
+        setError(e.message);
       } finally {
         setLoading(false);
       }
     };
 
     fetch();
-  }, [getTokenSilently, setCompanies, setLoading]);
+  }, [getTokenSilently, setCompanies, setError, setLoading]);
 
   if (loading) {
     return <Loading />;
