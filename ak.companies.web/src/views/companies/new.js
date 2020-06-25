@@ -7,7 +7,7 @@ import Container from "@material-ui/core/Container";
 import { useAuth0 } from "../../auth/auth0-spa";
 import Loading from "../../components/loading";
 import { createCompany } from "../../api";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { errors, notification } from "../../state/atoms";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,8 +33,8 @@ export default () => {
   const classes = useStyles();
   const { getTokenSilently } = useAuth0();
   const [loading, setLoading] = useState(false);
-  const [, setErrors] = useRecoilState(errors);
-  const [, setNotification] = useRecoilState(notification);
+  const setErrors = useSetRecoilState(errors);
+  const setNotification = useSetRecoilState(notification);
   const [company, setCompany] = useState({
     name: "",
     ticker: "",
@@ -53,8 +53,10 @@ export default () => {
       const data = await createCompany(token, company);
       setNotification(`${data.name} created successfully.`);
     } catch (e) {
-      if (e.response) {
+      if (e.response.data.errors) {
         setErrors(e.response.data.errors);
+      } else {
+        setErrors({ errors: [e] });
       }
     } finally {
       setLoading(false);

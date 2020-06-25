@@ -7,7 +7,7 @@ import Container from "@material-ui/core/Container";
 import { useAuth0 } from "../../auth/auth0-spa";
 import Loading from "../../components/loading";
 import { updateCompany } from "../../api";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { errors, notification } from "../../state/atoms";
 import { selectedCompanySelector } from "../../state/selectors";
 import { useParams, Redirect } from "react-router-dom";
@@ -36,8 +36,8 @@ export default () => {
   const { id } = useParams();
   const { getTokenSilently } = useAuth0();
   const [loading, setLoading] = useState(false);
-  const [, setErrors] = useRecoilState(errors);
-  const [, setNotification] = useRecoilState(notification);
+  const setErrors = useSetRecoilState(errors);
+  const setNotification = useSetRecoilState(notification);
   const selectedCompany = useRecoilValue(selectedCompanySelector);
 
   if (!selectedCompany) {
@@ -53,11 +53,13 @@ export default () => {
     try {
       setLoading(true);
       const token = await getTokenSilently();
-      const data = await updateCompany(token, { id, ...company });
-      setNotification(`${data.name} updated successfully.`);
+      await updateCompany(token, { id, ...company });
+      setNotification(`${company.name} updated successfully.`);
     } catch (e) {
-      if (e.response) {
+      if (e.response.data.errors) {
         setErrors(e.response.data.errors);
+      } else {
+        setErrors({ errors: [e] });
       }
     } finally {
       setLoading(false);

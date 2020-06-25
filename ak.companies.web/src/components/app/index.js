@@ -18,6 +18,7 @@ import {
 import Footer from "./footer";
 import { RecoilRoot } from "recoil";
 import Errors from "../errors";
+import Notification from "../notification";
 
 const theme = unstable_createMuiStrictModeTheme({
   palette: {
@@ -69,6 +70,7 @@ const App = () => {
                 />
               </Switch>
               <Errors />
+              <Notification />
               <Footer />
             </main>
           </div>

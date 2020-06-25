@@ -2,12 +2,12 @@ import React from "react";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import { errorsSelector } from "../state/selectors";
+import { notificationSelector } from "../state/selectors";
 import { useRecoilState } from "recoil";
 import { Alert, AlertTitle } from "@material-ui/lab";
 
 export default () => {
-  const [errors, reset] = useRecoilState(errorsSelector);
+  const [notification, reset] = useRecoilState(notificationSelector);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -23,7 +23,7 @@ export default () => {
           vertical: "bottom",
           horizontal: "right",
         }}
-        open={errors !== null}
+        open={notification !== null}
         autoHideDuration={5000}
         onClose={handleClose}
       >
@@ -40,10 +40,10 @@ export default () => {
               </IconButton>
             </React.Fragment>
           }
-          severity="error"
+          severity="success"
         >
-          <AlertTitle>Error</AlertTitle>
-          {errors}
+          <AlertTitle>Notification</AlertTitle>
+          {notification}
         </Alert>
       </Snackbar>
     </div>

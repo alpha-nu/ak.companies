@@ -13,5 +13,19 @@ export const selectedCompanySelector = selector({
 
 export const errorsSelector = selector({
   key: "errorsSelector",
-  get: ({ get }) => get(errors),
+  get: ({ get }) => {
+    const e = get(errors);
+    if (e) {
+      return JSON.stringify(e, null, 2);
+    } else {
+      return e;
+    }
+  },
+  set: ({ set }) => set(errors, null),
+});
+
+export const notificationSelector = selector({
+  key: "notificationSelector",
+  get: ({ get }) => get(notification),
+  set: ({ set }) => set(notification, null),
 });
