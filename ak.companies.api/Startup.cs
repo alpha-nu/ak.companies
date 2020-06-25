@@ -61,7 +61,8 @@ namespace ak.companies.api
             });
 
             services.AddControllers();
-            services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyOrigin().AllowAnyHeader()));
+            services.AddCors(options => options.AddDefaultPolicy(
+                policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -76,7 +77,7 @@ namespace ak.companies.api
             {
                 builder.SwaggerEndpoint("/swagger/v1/swagger.json", "ak.companies v1");
             });
-            
+
             app.UseRouting();
             app.UseCors();
             app.UseAuthentication();

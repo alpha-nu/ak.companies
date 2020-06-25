@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Grid,
@@ -11,15 +11,17 @@ import {
   Fab,
   Tooltip,
 } from "@material-ui/core";
-import { WebRounded, EditRounded } from "@material-ui/icons";
+import { WebRounded, EditRounded, AddRounded } from "@material-ui/icons";
 import { useRecoilState } from "recoil";
-import { allCompanies } from "../../state/atoms";
+import { allCompanies, selectedCompany } from "../../state/atoms";
 import { useAuth0 } from "../../auth/auth0-spa";
 import { getCompanies } from "../../api";
+import Loading from "../../components/loading";
 import logoIpsum1 from "../../assets/logoIpsums/1.png";
 import logoIpsum2 from "../../assets/logoIpsums/2.png";
 import logoIpsum3 from "../../assets/logoIpsums/3.png";
 import logoIpsum4 from "../../assets/logoIpsums/4.png";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -49,21 +51,38 @@ export default () => {
   const classes = useStyles();
   const [companies, setCompanies] = useRecoilState(allCompanies);
   const { getTokenSilently } = useAuth0();
+  const [loading, setLoading] = useState(true);
+  const [, setSelectedCompany] = useRecoilState(selectedCompany);
 
   useEffect(() => {
     const fetch = async () => {
-      const token = await getTokenSilently();
-      const data = await getCompanies(token);
+      try {
+        const token = await getTokenSilently();
+        const data = await getCompanies(token);
 
-      setCompanies(data);
+        setCompanies(data);
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetch();
-  }, [getTokenSilently, setCompanies]);
+  }, [getTokenSilently, setCompanies, setLoading]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Container className={classes.cardGrid} maxWidth="md">
       <Grid container spacing={4}>
+        <Grid item xs={12} style={{ textAlign: "end" }}>
+          <Fab component={Link} to="/companies/new" variant="extended">
+            <AddRounded color="action" /> New Company
+          </Fab>
+        </Grid>
         {companies.map(({ id, name, ticker, isin, website }) => (
           <Grid item key={id} xs={12} sm={12} md={4}>
             <Card className={classes.card}>
@@ -81,7 +100,14 @@ export default () => {
               </CardContent>
               <CardActions>
                 <Tooltip title="edit company">
-                  <Fab size="small">
+                  <Fab
+                    onClick={() => {
+                      setSelectedCompany({ name, ticker, isin, website });
+                    }}
+                    component={Link}
+                    to={`/companies/${id}`}
+                    size="small"
+                  >
                     <EditRounded color="action" />
                   </Fab>
                 </Tooltip>

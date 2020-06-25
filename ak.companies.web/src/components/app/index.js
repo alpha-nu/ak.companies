@@ -3,6 +3,8 @@ import { Router, Route, Switch } from "react-router-dom";
 import history from "../../auth/history";
 import Home from "../../views/home";
 import Companies from "../../views/companies";
+import NewCompany from "../../views/companies/new";
+import EditCompany from "../../views/companies/update";
 import Navigation from "../navigation";
 import { useAuth0 } from "../../auth/auth0-spa";
 import Loading from "../loading";
@@ -54,6 +56,16 @@ const App = () => {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <SecureRoute exact path="/companies" component={Companies} />
+                <SecureRoute
+                  exact
+                  path="/companies/new"
+                  component={NewCompany}
+                />
+                <SecureRoute
+                  exact
+                  path="/companies/:id"
+                  component={EditCompany}
+                />
               </Switch>
               <Footer />
             </main>

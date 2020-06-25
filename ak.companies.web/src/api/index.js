@@ -12,3 +12,30 @@ export const getCompanies = async (token) => {
 
   return data;
 };
+
+export const createCompany = async (token, company) => {
+  const { data } = await axios.post(`${baseUrl}/api/companies`, company, {
+    headers: {
+      authorization: `bearer ${token}`,
+    },
+  });
+
+  return data;
+};
+
+export const updateCompany = async (
+  token,
+  { id, name, isin, ticker, website }
+) => {
+  const { data } = await axios.put(
+    `${baseUrl}/api/companies/${id}`,
+    { name, isin, ticker, website },
+    {
+      headers: {
+        authorization: `bearer ${token}`,
+      },
+    }
+  );
+
+  return data;
+};
