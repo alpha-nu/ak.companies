@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Container,
   Grid,
@@ -14,7 +14,6 @@ import {
 import { WebRounded, EditRounded, AddRounded } from "@material-ui/icons";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { allCompanies, selectedCompany } from "../../state/atoms";
-import { useAuth0 } from "../../auth/auth0-spa";
 import { getCompanies } from "../../api";
 import Loading from "../../components/loading";
 import logoIpsum1 from "../../assets/logoIpsums/1.png";
@@ -22,7 +21,7 @@ import logoIpsum2 from "../../assets/logoIpsums/2.png";
 import logoIpsum3 from "../../assets/logoIpsums/3.png";
 import logoIpsum4 from "../../assets/logoIpsums/4.png";
 import { Link } from "react-router-dom";
-import { errors } from "../../state/atoms";
+import { useApi } from "../../hooks/useApi";
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -51,27 +50,13 @@ const getRandomLogo = () => {
 export default () => {
   const classes = useStyles();
   const [companies, setCompanies] = useRecoilState(allCompanies);
-  const { getTokenSilently } = useAuth0();
-  const [loading, setLoading] = useState(true);
   const setSelectedCompany = useSetRecoilState(selectedCompany);
-  const setError = useSetRecoilState(errors);
-
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        const token = await getTokenSilently();
-        const data = await getCompanies(token);
-
-        setCompanies(data);
-      } catch (e) {
-        setError(e.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetch();
-  }, [getTokenSilently, setCompanies, setError, setLoading]);
+  
+  const { loading } = useApi({
+    invoke: (...args) => getCompanies(...args),
+    success: setCompanies,
+    notifyMessage: "Retreived all comapnies",
+  });
 
   if (loading) {
     return <Loading />;
