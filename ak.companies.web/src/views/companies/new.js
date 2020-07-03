@@ -4,11 +4,9 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { useAuth0 } from "../../auth/auth0-spa";
 import Loading from "../../components/loading";
 import { createCompany } from "../../api";
-import { useSetRecoilState } from "recoil";
-import { errors, notification } from "../../state/atoms";
+import { useApi } from "../../hooks/useApi";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,37 +29,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
   const classes = useStyles();
-  const { getTokenSilently } = useAuth0();
-  const [loading, setLoading] = useState(false);
-  const setErrors = useSetRecoilState(errors);
-  const setNotification = useSetRecoilState(notification);
   const [company, setCompany] = useState({
     name: "",
     ticker: "",
     isin: "",
     website: "",
   });
-
   const { name, ticker, isin, website } = company;
+  const { loading, action: create } = useApi({
+    invoke: (token) => createCompany(token, company),
+    notifyMessage: `${company.name} created successfully.`,
+  });
+
   const update = (property) => (e) =>
     setCompany({ ...company, [property]: e.target.value });
-
-  const create = async () => {
-    try {
-      setLoading(true);
-      const token = await getTokenSilently();
-      const data = await createCompany(token, company);
-      setNotification(`${data.name} created successfully.`);
-    } catch (e) {
-      if (e.response.data.errors) {
-        setErrors(e.response.data.errors);
-      } else {
-        setErrors(e.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (loading) {
     return <Loading />;
