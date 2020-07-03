@@ -1,6 +1,6 @@
 import { useSetRecoilState } from "recoil";
 import { useAuth0 } from "../auth/auth0-spa";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { errors, notification } from "../state/atoms";
 
 export const useApi = ({ invoke, success, notifyMessage }) => {
@@ -9,8 +9,7 @@ export const useApi = ({ invoke, success, notifyMessage }) => {
   const setNotification = useSetRecoilState(notification);
   const { getTokenSilently } = useAuth0();
 
-  useEffect(() => {
-    const fetch = async () => {
+    const action = async () => {
       try {
         const token = await getTokenSilently();
         const data = await invoke(token);
@@ -23,9 +22,6 @@ export const useApi = ({ invoke, success, notifyMessage }) => {
       }
     };
 
-    fetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  return { loading };
+  return { loading, action };
 };

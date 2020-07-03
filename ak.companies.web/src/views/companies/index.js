@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   Grid,
@@ -51,12 +51,17 @@ export default () => {
   const classes = useStyles();
   const [companies, setCompanies] = useRecoilState(allCompanies);
   const setSelectedCompany = useSetRecoilState(selectedCompany);
-  
-  const { loading } = useApi({
+
+  const { loading, action } = useApi({
     invoke: (...args) => getCompanies(...args),
     success: setCompanies,
     notifyMessage: "Retreived all comapnies",
   });
+
+  useEffect(() => {
+    (async () => await action())();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (loading) {
     return <Loading />;

@@ -16,6 +16,7 @@ test("renders loader while fetching", () => {
 
   useApi.mockReturnValue({
     loading: true,
+    action: jest.fn()
   });
 
   const { getByText } = render(<Companies />);
@@ -45,6 +46,7 @@ test("renderes list of companies", async () => {
 
   useApi.mockReturnValue({
     loading: false,
+    action: jest.fn()
   });
 
   const { getByText } = render(
