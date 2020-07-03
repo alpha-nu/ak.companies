@@ -4,13 +4,12 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { useAuth0 } from "../../auth/auth0-spa";
 import Loading from "../../components/loading";
 import { updateCompany } from "../../api";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { errors, notification } from "../../state/atoms";
+import { useRecoilValue } from "recoil";
 import { selectedCompanySelector } from "../../state/selectors";
 import { useParams, Redirect } from "react-router-dom";
+import { useApi } from "../../hooks/useApi";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,38 +32,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
   const classes = useStyles();
-  const { id } = useParams();
-  const { getTokenSilently } = useAuth0();
-  const [loading, setLoading] = useState(false);
-  const setErrors = useSetRecoilState(errors);
-  const setNotification = useSetRecoilState(notification);
   const selectedCompany = useRecoilValue(selectedCompanySelector);
 
   if (!selectedCompany) {
     return <Redirect to="/companies" />;
   }
 
+  const { id } = useParams();
   const [company, setCompany] = useState(selectedCompany);
   const { name, ticker, isin, website } = company;
-  const update = (property) => (e) =>
-    setCompany({ ...company, [property]: e.target.value });
+  const { loading, action: update } = useApi({
+    invoke: (token) => updateCompany(token, { id, ...company }),
+    notifyMessage: `${company.name} updated successfully.`,
+  });
 
-  const create = async () => {
-    try {
-      setLoading(true);
-      const token = await getTokenSilently();
-      await updateCompany(token, { id, ...company });
-      setNotification(`${company.name} updated successfully.`);
-    } catch (e) {
-      if (e.response.data.errors) {
-        setErrors(e.response.data.errors);
-      } else {
-        setErrors(e.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  const updateCompanyValues = (property) => (e) =>
+    setCompany({ ...company, [property]: e.target.value });
 
   if (loading) {
     return <Loading />;
@@ -85,7 +68,7 @@ export default () => {
             fullWidth
             autoFocus
             value={name}
-            onChange={update("name")}
+            onChange={updateCompanyValues("name")}
           />
           <TextField
             variant="outlined"
@@ -94,7 +77,7 @@ export default () => {
             fullWidth
             label="ISIN"
             value={isin}
-            onChange={update("isin")}
+            onChange={updateCompanyValues("isin")}
           />
           <TextField
             variant="outlined"
@@ -103,7 +86,7 @@ export default () => {
             fullWidth
             label="Ticker"
             value={ticker}
-            onChange={update("ticker")}
+            onChange={updateCompanyValues("ticker")}
           />
           <TextField
             variant="outlined"
@@ -111,7 +94,7 @@ export default () => {
             fullWidth
             label="Website"
             value={website}
-            onChange={update("website")}
+            onChange={updateCompanyValues("website")}
           />
 
           <Button
@@ -119,7 +102,7 @@ export default () => {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={create}
+            onClick={update}
           >
             Update
           </Button>

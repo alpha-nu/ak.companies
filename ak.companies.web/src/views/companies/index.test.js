@@ -13,7 +13,6 @@ afterEach(cleanup);
 
 test("renders loader while fetching", () => {
   useRecoilState.mockReturnValue([[], jest.fn()]);
-
   useApi.mockReturnValue({
     loading: true,
     action: jest.fn()
