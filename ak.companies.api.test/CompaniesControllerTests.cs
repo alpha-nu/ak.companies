@@ -16,13 +16,13 @@ namespace ak.companies.api.test
     public class CompaniesControllerTests
     {
         private Companies controller;
-        private Mock<CompaniesContext> mockContext;
+        private Mock<ICompaniesContext> mockContext;
 
         [TestInitialize]
         public void TestSetup()
         {
             var companies = new List<Company> { new Company() };
-            mockContext = new Mock<CompaniesContext>();
+            mockContext = new Mock<ICompaniesContext>();
             var mockCompanyDbSet = companies.AsQueryable().BuildMockDbSet();
             mockContext.Setup(_ => _.Companies).Returns(mockCompanyDbSet.Object);
 

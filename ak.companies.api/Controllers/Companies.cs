@@ -16,9 +16,9 @@ namespace ak.companies.api.Controllers
     [Authorize]
     public class Companies : ControllerBase
     {
-        private readonly CompaniesContext context;
+        private readonly ICompaniesContext context;
 
-        public Companies(CompaniesContext context) => this.context = context;
+        public Companies(ICompaniesContext context) => this.context = context;
 
         [HttpGet]
         [Route("search")]

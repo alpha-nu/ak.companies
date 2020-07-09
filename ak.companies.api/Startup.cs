@@ -23,8 +23,9 @@ namespace ak.companies.api
         {
             services.AddDbContext<CompaniesContext>(options =>
                 options.UseMySQL(Configuration.GetConnectionString("CompaniesDatabase")));
+            services.AddScoped<ICompaniesContext>(provider => provider.GetService<CompaniesContext>());
 
-            services.AddAuthentication(options =>
+      services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
