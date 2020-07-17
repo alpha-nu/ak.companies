@@ -53,7 +53,7 @@ export default () => {
   const setSelectedCompany = useSetRecoilState(selectedCompany);
 
   const { loading, action } = useApi({
-    invoke: (...args) => getCompanies(...args),
+    invoke: (token) => getCompanies(token),
     success: setCompanies,
     notifyMessage: "Retreived all comapnies",
   });
