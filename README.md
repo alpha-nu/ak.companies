@@ -17,8 +17,6 @@ Or, to run the containers in detached mode (background):
 docker-compose up -d
 ```
 
-*On Windows, if you cannot execute `.sh` files, you can rename the file to `.ps` and use powershell instead*
-
 And that's it, you should have:
 - a react front end at http://localhost:3000
 - a .net core api at http://localhost:5001
@@ -71,3 +69,5 @@ To create and initialize the database:
 ```bash
 ./init-db.sh
 ```
+
+*On Windows, if you cannot execute `.sh` files, you can rename the file to `.ps` and use powershell instead*
